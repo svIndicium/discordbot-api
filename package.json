@@ -4,7 +4,7 @@
   "description": "Discord bot voor de HBO-ICT server",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node src"
   },
   "license": "MIT",
   "dependencies": {
