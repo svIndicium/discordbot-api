@@ -2,13 +2,18 @@
   "name": "indiciumbot",
   "version": "0.0.0",
   "description": "Discord bot voor de HBO-ICT server",
-  "main": "index.js",
+  "type": "module",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "node src"
+    "start": "tsc & cd src & node index.js"
   },
   "license": "MIT",
   "dependencies": {
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.13",
+    "typescript": "^4.1.3"
   }
 }
