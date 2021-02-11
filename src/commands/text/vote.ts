@@ -19,14 +19,14 @@ export default {
       return;
     }
 
-      voteMessage.react('☑').catch(error => {
+      voteMessage.react('<:yes:809459785204367380>').catch(error => {
         if (error.name === 'DiscordAPIError' && error.code === 50013) {
           message.reply("I don't have the permission to add reactions");
         } else {
           throw error;
         }
       });
-      voteMessage.react('❌').catch(()=>{});  // Only need to catch once
+      voteMessage.react('<:no:809460617751691295>').catch(()=>{});  // Only need to catch once
 
       message.delete().catch(error => {
         if (error.name === 'DiscordAPIError' && error.code === 50013) {
