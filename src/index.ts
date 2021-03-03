@@ -7,7 +7,7 @@ import { config as dotenv } from 'dotenv';
 import * as fs from 'fs';
 
 dotenv();
-const client = new Client();
+const client = global.client = new Client();
 
 client.once('ready', async () => {
   await (client.user as ClientUser).setStatus('online');
