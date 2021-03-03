@@ -1,7 +1,7 @@
 //region setup
 // types
-import {Client, ClientUser, Message, VoiceState} from 'discord.js';
-import {Dirent} from 'fs';
+import { Client, ClientUser, Message, VoiceState } from 'discord.js';
+import { Dirent } from 'fs';
 
 import { config as dotenv } from 'dotenv';
 import * as fs from 'fs';
@@ -9,18 +9,11 @@ import * as fs from 'fs';
 dotenv();
 const client = global.client = new Client();
 
-client.once('ready', async () => {
-  await (client.user as ClientUser).setStatus('online');
-  console.log('Ready!');
-});
 
-client.login(process.env.token);
-
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
   if (client.user !== null) {  // May not yet be initialized
-    client.user.setStatus('invisible')
-        .then(() => client.destroy())
-        .then(() => process.exit());
+    await client.user.setStatus('invisible');
+    await client.destroy();
   }
   process.exit();
 });
@@ -43,7 +36,7 @@ function readFiles(dir?: string) {
 }
 
 const commandFiles = readFiles('./commands');
-const commands = new Map();
+const commands: Map<string, { name: string, execute: (message: Message) => never }> = new Map();
 
 for (const fileName of commandFiles) {
   if (fileName.endsWith('.js')) {
@@ -52,7 +45,16 @@ for (const fileName of commandFiles) {
   }
 }
 
-const prefix = <string> process.env.defaultPrefix;
+client.once('ready', async () => {
+  await (client.user as ClientUser).setStatus('online');
+  console.log('Ready!');
+  // @ts-ignore
+  commands.get('clearCommandsChannel').execute();
+});
+
+client.login(process.env.token);
+
+const prefix = process.env.defaultPrefix as string;
 //endregion
 
 client.on('message', async (message: Message) => {

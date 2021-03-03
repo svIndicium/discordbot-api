@@ -28,12 +28,15 @@ export default {
       });
       voteMessage.react('<:no:809460617751691295>').catch(()=>{});  // Only need to catch once
 
-      message.delete().catch(error => {
-        if (error.name === 'DiscordAPIError' && error.code === 50013) {
-          message.reply("I don't have the permission to delete the command");
-        } else {
-          throw error;
-        }
-      });
+    try {
+      await message.delete();
+    } catch (error) {
+      if (error.name === 'DiscordAPIError' && error.code === 50013) {
+        message.reply("I don't have the permission to delete the command");
+      } else if (error.name === "DiscordAPIError" && error.code === 10008) {
+      } else {
+        throw error;
+      }
+    }
   }
 };
